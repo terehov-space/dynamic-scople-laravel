@@ -36,10 +36,6 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    protected $casts = [
-        'created_at' => 'date:Y-m-d',
-    ];
-
     public function scopeRegisteredSelectedMonth($q, $months = [])
     {
         if (!$months) {

@@ -14,8 +14,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/select/{month}', function (\Illuminate\Http\Request $request, $month) {
-    $selectedMonthUsersCount = \App\Models\User::registeredSelectedMonth([$month])->count();
+Route::get('/select', function (\Illuminate\Http\Request $request) {
+    $selectedMonthUsersCount = \App\Models\User::select(
+        \Illuminate\Support\Facades\DB::raw(
+            "COUNT(id) AS cnt, DATE_FORMAT(created_at, '%m') AS month"
+        )
+    )
+        ->registeredSelectedMonth($request->get('months') ?? [])
+        ->groupBy('created_at')
+        ->get();
 
     return [
         'selectedMonth' => $selectedMonthUsersCount,
