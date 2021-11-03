@@ -14,5 +14,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    $response = [];
+
+    $response[9] = \App\Models\User::registeredSelectedMonth([9])->count();
+    $response['7-8-9'] = \App\Models\User::registeredSelectedMonth([7, 8, 9])->count();
 });
